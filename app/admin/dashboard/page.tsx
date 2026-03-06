@@ -8,7 +8,7 @@ import ContentModeration from '@/components/admin/ContentModeration';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export const metadata = {
-  title: 'Admin Dashboard | LinguaAccess',
+  title: 'Admin Dashboard | LexFix',
   description: 'Platform administration and monitoring',
 };
 
