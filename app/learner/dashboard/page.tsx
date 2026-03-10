@@ -220,7 +220,7 @@ export default function LearnerDashboard() {
     return (
       <div className="min-h-screen bg-[#faf9f7]">
         <header role="banner" className="bg-white border-b border-[#e8e5e0] sticky top-0 z-10">
-          <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <Link href="/" aria-label="LexFix home">
               <Logo />
             </Link>
@@ -339,7 +339,7 @@ export default function LearnerDashboard() {
     <div className="min-h-screen bg-[#faf9f7]">
       {/* Header */}
       <header role="banner" className="bg-white border-b border-[#e8e5e0] sticky top-0 z-10">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <Link href="/" aria-label="LexFix home">
             <Logo />
           </Link>
@@ -408,7 +408,7 @@ export default function LearnerDashboard() {
 
       {/* Language tabs + Focus toggle */}
       <div className="bg-[#faf9f7] border-b border-[#f0ede8]">
-        <div className="max-w-5xl mx-auto px-6 py-2.5 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 py-2.5 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-xs text-[#8a8a8a] mr-1">{t('common.language')}:</span>
             {learningLanguages.map((lang: string) => (
@@ -424,40 +424,26 @@ export default function LearnerDashboard() {
               </button>
             ))}
 
-            {/* Add language button */}
-            {availableLanguages.length > 0 && (
-              <div className="relative">
+            {/* Add language — show available languages as chips */}
+            {availableLanguages.map((lang: string) => {
+              const langLabel: Record<string, string> = {
+                English: 'E',
+                Tamil: 'த',
+              };
+              return (
                 <button
-                  onClick={() => setShowAddLang(!showAddLang)}
-                  className="w-7 h-7 rounded-lg bg-[#f0ede8] text-[#6b6b6b] hover:bg-[#e8e5e0] flex items-center justify-center transition-colors"
-                  aria-label="Add a language"
-                  title="Add a language"
+                  key={lang}
+                  onClick={() => handleAddLanguage(lang)}
+                  disabled={addingLang}
+                  className="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors bg-[#f0ede8] text-[#6b6b6b] hover:bg-[#7a9b7e] hover:text-white disabled:opacity-50 flex items-center gap-1"
+                  title={`Add ${lang}`}
+                  aria-label={`Add ${lang}`}
                 >
-                  <Plus className="w-3.5 h-3.5" aria-hidden="true" />
+                  <Plus className="w-3 h-3" aria-hidden="true" />
+                  {langLabel[lang] ?? lang.slice(0, 2).toUpperCase()}
                 </button>
-
-                {showAddLang && (
-                  <div className="absolute top-full left-0 mt-2 bg-white rounded-xl border border-[#e8e5e0] shadow-lg p-3 z-20 min-w-[180px]">
-                    <div className="flex items-center justify-between mb-2">
-                      <p className="text-xs font-medium text-[#2d2d2d]">{t('common.addLanguage')}</p>
-                      <button onClick={() => setShowAddLang(false)} className="text-[#8a8a8a] hover:text-[#6b6b6b]">
-                        <X className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                    {availableLanguages.map((lang: string) => (
-                      <button
-                        key={lang}
-                        onClick={() => handleAddLanguage(lang)}
-                        disabled={addingLang}
-                        className="w-full text-left px-3 py-2 rounded-lg text-sm text-[#2d2d2d] hover:bg-[#f0f4f0] transition-colors disabled:opacity-50"
-                      >
-                        {lang}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
+              );
+            })}
           </div>
           <button
             onClick={() => setFocusMode(true)}

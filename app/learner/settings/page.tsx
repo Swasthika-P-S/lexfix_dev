@@ -53,6 +53,31 @@ export default function LearnerSettingsPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
 
+  // Instantly apply visual accessibility settings upon toggle
+  const handleToggle = (key: keyof typeof formData, value: any) => {
+    setFormData(prev => ({ ...prev, [key]: value }));
+
+    const prefMappings: Record<string, string> = {
+      fontFamily: 'fontFamily',
+      fontSize: 'fontSize',
+      lineSpacing: 'lineSpacing',
+      letterSpacing: 'letterSpacing',
+      colorScheme: 'colorScheme',
+      reducedMotion: 'reducedMotion',
+      // Map UI names to internal AccessibilityContext names
+      captionsEnabled: 'speechShowSubtitles',
+      speechRecognition: 'enableSpeechRec',
+      adhdMode: 'adhdMode',
+      dyslexiaMode: 'dyslexiaMode',
+      autismMode: 'autismMode',
+      apdMode: 'apdMode',
+    };
+
+    if (prefMappings[key]) {
+      setPreferences({ [prefMappings[key]]: value });
+    }
+  };
+
   async function handleSave() {
     setIsSaving(true);
     setSaveSuccess(false);
@@ -103,7 +128,7 @@ export default function LearnerSettingsPage() {
   return (
     <div className="min-h-screen bg-[#faf9f7]">
       <header role="banner" className="bg-white border-b border-[#e8e5e0] sticky top-0 z-30">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" aria-label="LexFix home">
             <Logo />
           </Link>
@@ -179,25 +204,25 @@ export default function LearnerSettingsPage() {
               label="ADHD Focus Mode"
               description="Simplifies interface, breaks lessons into single sentences, and enables focus timers."
               checked={formData.adhdMode}
-              onChange={(c) => setFormData({ ...formData, adhdMode: c })}
+              onChange={(c) => handleToggle('adhdMode', c)}
             />
             <ToggleOption
               label="Dyslexia Support"
               description="Uses OpenDyslexic font, increases letter spacing, and enables text-to-speech helpers."
               checked={formData.dyslexiaMode}
-              onChange={(c) => setFormData({ ...formData, dyslexiaMode: c })}
+              onChange={(c) => handleToggle('dyslexiaMode', c)}
             />
             <ToggleOption
               label="Autism Structure"
               description="Enables predictable layouts, clear instructions, and removes ambiguous metaphors."
               checked={formData.autismMode}
-              onChange={(c) => setFormData({ ...formData, autismMode: c })}
+              onChange={(c) => handleToggle('autismMode', c)}
             />
             <ToggleOption
               label="Auditory Processing (APD)"
               description="Emphasizes visual cues, subtitles, and reduces background noise."
               checked={formData.apdMode}
-              onChange={(c) => setFormData({ ...formData, apdMode: c })}
+              onChange={(c) => handleToggle('apdMode', c)}
             />
           </div>
         </Section>
@@ -285,22 +310,22 @@ export default function LearnerSettingsPage() {
           {/* Toggles */}
           <div className="space-y-2">
             <ToggleOption
-              label="Reduced motion"
-              description="Minimise animations and transitions"
+              label="Reduced Motion"
+              description="Minimize animations and transitions"
               checked={formData.reducedMotion}
-              onChange={(v) => setFormData({ ...formData, reducedMotion: v })}
+              onChange={(c) => handleToggle('reducedMotion', c)}
             />
             <ToggleOption
-              label="Captions"
-              description="Show text captions for audio and video"
-              checked={formData.captionsEnabled}
-              onChange={(v) => setFormData({ ...formData, captionsEnabled: v })}
-            />
-            <ToggleOption
-              label="Speech recognition"
-              description="Enable voice input for pronunciation practice"
+              label="Voice Assistant"
+              description="Enable 'Hey LexFix' to control navigation"
               checked={formData.speechRecognition}
-              onChange={(v) => setFormData({ ...formData, speechRecognition: v })}
+              onChange={(c) => handleToggle('speechRecognition', c)}
+            />
+            <ToggleOption
+              label="Captions & Subtitles"
+              description="Always show text for spoken content"
+              checked={formData.captionsEnabled}
+              onChange={(c) => handleToggle('captionsEnabled', c)}
             />
           </div>
         </Section>
@@ -321,10 +346,10 @@ export default function LearnerSettingsPage() {
               onChange={(v) => setFormData({ ...formData, backgroundMusic: v })}
             />
             <ToggleOption
-              label="Audio descriptions"
-              description="Provide audio descriptions for visual content"
-              checked={formData.audioDescriptions}
-              onChange={(v) => setFormData({ ...formData, audioDescriptions: v })}
+              label="High Contrast Mode"
+              description="Use dark background with light text for better visibility"
+              checked={formData.colorScheme === 'dark'}
+              onChange={(c) => handleToggle('colorScheme', c ? 'dark' : 'light')}
             />
           </div>
         </Section>
