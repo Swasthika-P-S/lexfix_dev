@@ -19,12 +19,8 @@ import {
 } from '@/lib/api';
 import { useLanguage } from '@/components/providers/LanguageProvider';
 import { useToast } from '@/components/providers/ToastProvider';
-import { useAccessibility } from '@/components/providers/AccessibilityProvider';
-import { MapDashboard } from '@/components/MapDashboard';
 import {
   BookOpen,
-  Map,
-  LayoutGrid,
   ChevronRight,
   Target,
   Clock,
@@ -37,8 +33,6 @@ import {
   X,
   Flame,
   Award,
-  Sparkles,
-  MessageCircle
 } from 'lucide-react';
 import Logo from '@/components/ui/Logo';
 
@@ -47,14 +41,12 @@ export default function LearnerDashboard() {
   const router = useRouter();
   const { language, setLanguage, t } = useLanguage();
   const { success, error: toastError, info } = useToast();
-  const { preferences } = useAccessibility();
 
   const [dashboardData, setDashboardData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeLanguage, setActiveLanguage] = useState<string>('');
   const [focusMode, setFocusMode] = useState(false);
-  const [mapMode, setMapMode] = useState(true);
   const [showAddLang, setShowAddLang] = useState(false);
   const [addingLang, setAddingLang] = useState(false);
 
@@ -119,9 +111,9 @@ export default function LearnerDashboard() {
   /* ─── Loading ─── */
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-[#faf9f7]" role="status" aria-live="polite">
+      <div className="flex items-center justify-center min-h-screen bg-[#faf9f7]">
         <div className="text-center space-y-4">
-          <div className="w-10 h-10 border-[3px] border-[#d4dcd5] border-t-[#7a9b7e] rounded-full animate-spin mx-auto" aria-hidden="true" />
+          <div className="w-10 h-10 border-[3px] border-[#d4dcd5] border-t-[#7a9b7e] rounded-full animate-spin mx-auto" />
           <p className="text-[#6b6b6b] text-base" style={{ lineHeight: '1.8' }}>
             {t('status.dataLoading')}
           </p>
@@ -133,7 +125,7 @@ export default function LearnerDashboard() {
   /* ─── Error ─── */
   if (error || !dashboardData) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-[#faf9f7]" role="alert">
+      <div className="flex items-center justify-center min-h-screen bg-[#faf9f7]">
         <div className="text-center max-w-sm space-y-4">
           <p className="text-[#6b6b6b] text-base" style={{ lineHeight: '1.8' }}>
             {error || 'Something went wrong.'}
@@ -225,24 +217,19 @@ export default function LearnerDashboard() {
     const focusLesson = nextLesson || recommendedLesson;
     return (
       <div className="min-h-screen bg-[#faf9f7] pt-[76px]">
-        <header role="banner" className="bg-white border-b border-[#e8e5e0] fixed top-0 left-0 w-full z-50">
+        <header className="fixed top-0 left-0 w-full z-50 bg-white border-b border-[#e8e5e0]">
           <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-            <Link href="/" aria-label="LexFix home">
-              <Logo />
-            </Link>
+            <Link href="/" aria-label="LexFix home"><Logo /></Link>
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setFocusMode(false)}
                 className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[#6b6b6b] hover:bg-[#f0ede8] border border-transparent hover:border-[#e8e5e0]"
                 aria-label="Exit focus mode"
               >
-                <EyeOff className="w-4 h-4" aria-hidden="true" />
+                <EyeOff className="w-4 h-4" />
                 <span>{t('dashboard.focusMode')}</span>
               </button>
-              <div className="w-px h-5 bg-[#e8e5e0] mx-1" />
-              <Link href="/logout" className="px-3 py-2 rounded-lg text-sm text-[#8a8a8a] hover:text-[#c27171] hover:bg-red-50/50">
-                {t('nav.signOut')}
-              </Link>
+              <Link href="/logout" className="text-sm text-[#8a8a8a] hover:text-[#6b6b6b]">{t('nav.signOut')}</Link>
             </div>
           </div>
         </header>
@@ -308,15 +295,15 @@ export default function LearnerDashboard() {
                 <p className="text-[#6b6b6b] mb-6" style={{ lineHeight: '1.8' }}>{focusLesson.description}</p>
               )}
               <div className="flex items-center gap-4 mb-6 text-sm text-[#8a8a8a]">
-                <span className="flex items-center gap-1.5"><Globe className="w-4 h-4" aria-hidden="true" />{focusLesson.language}</span>
-                <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" aria-hidden="true" />{focusLesson.duration || '15 min'}</span>
+                <span className="flex items-center gap-1.5"><Globe className="w-4 h-4" />{focusLesson.language}</span>
+                <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" />{focusLesson.duration || '15 min'}</span>
               </div>
               <Link
                 href={`/learner/lessons/${focusLesson.lessonId || focusLesson.id}`}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-[#7a9b7e] text-white rounded-xl text-sm font-medium hover:bg-[#6b8c6f]"
               >
                 {nextLesson?.status === 'in-progress' ? t('dashboard.continueLesson') : t('dashboard.startLesson')}
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           )}
@@ -342,19 +329,16 @@ export default function LearnerDashboard() {
      FULL DASHBOARD — balanced, per-language
      ══════════════════════════════════════════ */
   return (
-    <div className="min-h-screen bg-[#faf9f7]">
+    <div className="min-h-screen bg-[#faf9f7] pt-[76px]">
       {/* Header */}
       <header role="banner" className="bg-white border-b border-[#e8e5e0] fixed top-0 left-0 w-full z-50">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
-          <Link href="/" aria-label="LexFix home">
-            <Logo />
-          </Link>
-          <nav role="navigation" aria-label="Main navigation" className="flex items-center gap-1 md:gap-2 lg:gap-3 flex-nowrap justify-end">
+        <div className="max-w-5xl mx-auto px-6 py-3.5 flex justify-between items-center">
+          <Link href="/" aria-label="LexFix home"><Logo /></Link>
+          <nav role="navigation" aria-label="Main navigation" className="flex items-center gap-1">
             {[
               { href: '/learner/dashboard', key: 'dashboard', active: true },
               { href: '/learner/lessons', key: 'lessons', active: false },
               { href: '/learner/practice/writing', key: 'practice', active: false },
-              { href: '/learner/practice/conversation', key: 'conversation', active: false },
               { href: '/learner/progress', key: 'progress', active: false },
               { href: '/learner/profile', key: 'profile', active: false },
               { href: '/learner/settings', key: 'settings', active: false },
@@ -362,7 +346,7 @@ export default function LearnerDashboard() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-2.5 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${item.active
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${item.active
                   ? 'bg-[#f0f4f0] text-[#5d7e61]'
                   : 'text-[#6b6b6b] hover:bg-[#f5f3ef] hover:text-[#2d2d2d]'
                   }`}
@@ -371,11 +355,11 @@ export default function LearnerDashboard() {
                 {t(`nav.${item.key}`)}
               </Link>
             ))}
-            <div className="hidden sm:block w-px h-5 bg-[#e8e5e0] mx-1" />
+            <div className="w-px h-5 bg-[#e8e5e0] mx-2" />
 
             {/* UI Language Selector — pill toggle */}
             <div
-              className="flex items-center rounded-lg border border-[#e8e5e0] overflow-hidden flex-shrink-0"
+              className="flex items-center rounded-lg border border-[#e8e5e0] overflow-hidden"
               title={t('common.uiLanguage')}
               role="group"
               aria-label={t('common.uiLanguage')}
@@ -405,8 +389,8 @@ export default function LearnerDashboard() {
               </button>
             </div>
 
-            <div className="hidden sm:block w-px h-5 bg-[#e8e5e0] mx-1" />
-            <Link href="/logout" className="px-3 py-2 rounded-lg text-sm text-[#8a8a8a] hover:text-[#c27171] hover:bg-red-50/50 flex-shrink-0">
+            <div className="w-px h-5 bg-[#e8e5e0]" />
+            <Link href="/logout" className="px-3 py-2 rounded-lg text-sm text-[#8a8a8a] hover:text-[#c27171] hover:bg-red-50/50">
               {t('nav.signOut')}
             </Link>
           </nav>
@@ -431,55 +415,49 @@ export default function LearnerDashboard() {
               </button>
             ))}
 
-            {/* Add language — show available languages as chips */}
-            {availableLanguages.map((lang: string) => {
-              const langLabel: Record<string, string> = {
-                English: 'E',
-                Tamil: 'த',
-              };
-              return (
+            {/* Add language button */}
+            {availableLanguages.length > 0 && (
+              <div className="relative">
                 <button
-                  key={lang}
-                  onClick={() => handleAddLanguage(lang)}
-                  disabled={addingLang}
-                  className="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors bg-[#f0ede8] text-[#6b6b6b] hover:bg-[#7a9b7e] hover:text-white disabled:opacity-50 flex items-center gap-1"
-                  title={`Add ${lang}`}
-                  aria-label={`Add ${lang}`}
+                  onClick={() => setShowAddLang(!showAddLang)}
+                  className="w-7 h-7 rounded-lg bg-[#f0ede8] text-[#6b6b6b] hover:bg-[#e8e5e0] flex items-center justify-center transition-colors"
+                  aria-label="Add a language"
+                  title="Add a language"
                 >
-                  <Plus className="w-3 h-3" aria-hidden="true" />
-                  {langLabel[lang] ?? lang.slice(0, 2).toUpperCase()}
+                  <Plus className="w-3.5 h-3.5" />
                 </button>
-              );
-            })}
+
+                {showAddLang && (
+                  <div className="absolute top-full left-0 mt-2 bg-white rounded-xl border border-[#e8e5e0] shadow-lg p-3 z-20 min-w-[180px]">
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-xs font-medium text-[#2d2d2d]">{t('common.addLanguage')}</p>
+                      <button onClick={() => setShowAddLang(false)} className="text-[#8a8a8a] hover:text-[#6b6b6b]">
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                    {availableLanguages.map((lang: string) => (
+                      <button
+                        key={lang}
+                        onClick={() => handleAddLanguage(lang)}
+                        disabled={addingLang}
+                        className="w-full text-left px-3 py-2 rounded-lg text-sm text-[#2d2d2d] hover:bg-[#f0f4f0] transition-colors disabled:opacity-50"
+                      >
+                        {lang}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
-          <div className="flex gap-2">
-            <div className="flex bg-[#f0ede8] rounded-lg p-0.5">
-              <button
-                onClick={() => setMapMode(false)}
-                className={`p-1.5 rounded-md text-xs font-medium flex items-center gap-1.5 transition-colors ${!mapMode ? 'bg-white text-[#2d2d2d] shadow-sm' : 'text-[#8a8a8a] hover:text-[#2d2d2d]'}`}
-                aria-label="List View"
-              >
-                <LayoutGrid className="w-3.5 h-3.5" />
-                <span className="sr-only sm:not-sr-only">List</span>
-              </button>
-              <button
-                onClick={() => setMapMode(true)}
-                className={`p-1.5 rounded-md text-xs font-medium flex items-center gap-1.5 transition-colors ${mapMode ? 'bg-white text-[#2d2d2d] shadow-sm' : 'text-[#8a8a8a] hover:text-[#2d2d2d]'}`}
-                aria-label="Map View"
-              >
-                <Map className="w-3.5 h-3.5" />
-                <span className="sr-only sm:not-sr-only">Map</span>
-              </button>
-            </div>
-            <button
-              onClick={() => setFocusMode(true)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-[#6b6b6b] hover:bg-[#f0ede8] border border-[#e8e5e0]"
-              aria-label="Enter focus mode"
-            >
-              <Eye className="w-3.5 h-3.5" aria-hidden="true" />
-              {t('dashboard.focusMode')}
-            </button>
-          </div>
+          <button
+            onClick={() => setFocusMode(true)}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium text-[#6b6b6b] hover:bg-[#f0ede8] border border-[#e8e5e0]"
+            aria-label="Enter focus mode"
+          >
+            <Eye className="w-3.5 h-3.5" />
+            {t('dashboard.focusMode')}
+          </button>
         </div>
       </div>
 
@@ -562,10 +540,10 @@ export default function LearnerDashboard() {
                 {recommendedLesson.description}
               </p>
               <div className="flex gap-3 text-xs text-[#8a8a8a]">
-                {recommendedLesson.language && <span className="flex items-center gap-1"><Globe className="w-3.5 h-3.5" aria-hidden="true" />{recommendedLesson.language}</span>}
-                <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" aria-hidden="true" />{recommendedLesson.duration || '15 min'}</span>
+                {recommendedLesson.language && <span className="flex items-center gap-1"><Globe className="w-3.5 h-3.5" />{recommendedLesson.language}</span>}
+                <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{recommendedLesson.duration || '15 min'}</span>
                 {recommendedLesson.score != null && (
-                  <span className="flex items-center gap-1"><Target className="w-3.5 h-3.5" aria-hidden="true" />{recommendedLesson.score}%</span>
+                  <span className="flex items-center gap-1"><Target className="w-3.5 h-3.5" />{recommendedLesson.score}%</span>
                 )}
               </div>
               {/* Mini progress bar for in-progress lessons */}
@@ -587,222 +565,194 @@ export default function LearnerDashboard() {
               className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#7a9b7e] text-white rounded-xl text-sm font-medium hover:bg-[#6b8c6f] flex-shrink-0 transition-colors"
             >
               {inProgressLesson ? t('common.continue') : t('dashboard.startLesson')}
-              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </section>
 
         {/* ═══ Two-column layout — BALANCED ═══ */}
-        {mapMode ? (
-          <MapDashboard
-            language={activeLanguage}
-            lessons={recentLessons}
-            onStartLesson={(id) => router.push(`/learner/lessons/${id}`)}
-          />
-        ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-            {/* ─── LEFT COLUMN ─── */}
-            <div className="space-y-6">
-              {/* Goal progress */}
-              <section className="bg-white rounded-xl p-5 border border-[#f0ede8]" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
-                <div className="flex items-center gap-2.5 mb-4">
-                  <Target className="w-[18px] h-[18px] text-[#7a97b0]" aria-hidden="true" />
-                  <span className="text-sm font-semibold text-[#2d2d2d]">{t('dashboard.currentGoal')}</span>
+          {/* ─── LEFT COLUMN ─── */}
+          <div className="space-y-6">
+            {/* Goal progress */}
+            <section className="bg-white rounded-xl p-5 border border-[#f0ede8]" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+              <div className="flex items-center gap-2.5 mb-4">
+                <Target className="w-[18px] h-[18px] text-[#7a97b0]" aria-hidden="true" />
+                <span className="text-sm font-semibold text-[#2d2d2d]">{t('dashboard.currentGoal')}</span>
+              </div>
+              <p className="text-sm text-[#6b6b6b] mb-3" style={{ lineHeight: '1.7' }}>{currentGoal}</p>
+              <div className="mb-2">
+                <div className="w-full h-2 bg-[#f0ede8] rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-[#7a97b0] rounded-full"
+                    style={{ width: `${goalProgress}%`, transition: 'width 0.6s ease' }}
+                    role="progressbar"
+                    aria-valuenow={goalProgress}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-label={`${activeLanguage} goal progress: ${goalProgress}%`}
+                  />
                 </div>
-                <p className="text-sm text-[#6b6b6b] mb-3" style={{ lineHeight: '1.7' }}>{currentGoal}</p>
-                <div className="mb-2">
-                  <div className="w-full h-2 bg-[#f0ede8] rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-[#7a97b0] rounded-full"
-                      style={{ width: `${goalProgress}%`, transition: 'width 0.6s ease' }}
-                      role="progressbar"
-                      aria-valuenow={goalProgress}
-                      aria-valuemin={0}
-                      aria-valuemax={100}
-                      aria-label={`${activeLanguage} goal progress: ${goalProgress}%`}
-                    />
-                  </div>
-                </div>
-                <p className="text-xs text-[#8a8a8a]">{goalProgress}% {t('dashboard.completed')}</p>
-              </section>
+              </div>
+              <p className="text-xs text-[#8a8a8a]">{goalProgress}% {t('dashboard.completed')}</p>
+            </section>
 
-              {/* Milestones — compact 2x2 grid */}
-              <section className="bg-white rounded-xl p-5 border border-[#f0ede8]" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-sm font-semibold text-[#2d2d2d]">{activeLanguage} Milestones</h2>
-                  <span className="text-xs text-[#8a8a8a]">{earnedCount}/{achievements.length}</span>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  {achievements.map((a: any) => (
-                    <div
-                      key={a.id}
-                      className={`flex items-center gap-2.5 p-2.5 rounded-lg ${a.earned ? 'bg-[#f0f4f0]' : 'bg-[#faf9f7]'}`}
-                    >
-                      <div className={`w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 ${a.earned ? 'bg-[#7a9b7e] text-white' : 'bg-[#e8e5e0] text-[#8a8a8a]'
-                        }`}>
-                        <Award className="w-3.5 h-3.5" aria-hidden="true" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className={`text-xs font-medium leading-tight ${a.earned ? 'text-[#2d2d2d]' : 'text-[#8a8a8a]'}`}>{a.title}</p>
-                      </div>
+            {/* Milestones — compact 2x2 grid */}
+            <section className="bg-white rounded-xl p-5 border border-[#f0ede8]" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-sm font-semibold text-[#2d2d2d]">{activeLanguage} Milestones</h2>
+                <span className="text-xs text-[#8a8a8a]">{earnedCount}/{achievements.length}</span>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {achievements.map((a: any) => (
+                  <div
+                    key={a.id}
+                    className={`flex items-center gap-2.5 p-2.5 rounded-lg ${a.earned ? 'bg-[#f0f4f0]' : 'bg-[#faf9f7]'}`}
+                  >
+                    <div className={`w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 ${a.earned ? 'bg-[#7a9b7e] text-white' : 'bg-[#e8e5e0] text-[#8a8a8a]'
+                      }`}>
+                      <Award className="w-3.5 h-3.5" />
                     </div>
-                  ))}
-                </div>
-              </section>
+                    <div className="min-w-0">
+                      <p className={`text-xs font-medium leading-tight ${a.earned ? 'text-[#2d2d2d]' : 'text-[#8a8a8a]'}`}>{a.title}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
 
-              {/* Speaking practice */}
-              <section className="bg-white rounded-xl p-5 border border-[#f0ede8]" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
-                <h2 className="text-sm font-semibold text-[#2d2d2d] mb-2">{t('dashboard.practice')}</h2>
-                <p className="text-sm text-[#6b6b6b] mb-4" style={{ lineHeight: '1.7' }}>
-                  {t('dashboard.practice')} {activeLanguage}
-                </p>
+            {/* Speaking practice */}
+            <section className="bg-white rounded-xl p-5 border border-[#f0ede8]" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+              <h2 className="text-sm font-semibold text-[#2d2d2d] mb-2">{t('dashboard.practice')}</h2>
+              <p className="text-sm text-[#6b6b6b] mb-4" style={{ lineHeight: '1.7' }}>
+                {t('dashboard.practice')} {activeLanguage}
+              </p>
+              <Link
+                href="/learner/practice/pronunciation"
+                className="inline-flex items-center gap-1.5 text-sm text-[#7a9b7e] hover:text-[#5d7e61] font-medium"
+              >
+                {t('common.start')}
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </section>
+          </div>
+
+          {/* ─── RIGHT COLUMN ─── */}
+          <div className="space-y-6">
+            {/* Recent lessons */}
+            <section aria-labelledby="recent-lessons-heading">
+              <div className="flex justify-between items-center mb-4">
+                <h2 id="recent-lessons-heading" className="text-sm font-semibold text-[#2d2d2d]">
+                  Recent {activeLanguage} Lessons
+                </h2>
                 <Link
-                  href="/learner/practice/pronunciation"
-                  className="inline-flex items-center gap-1.5 text-sm text-[#7a9b7e] hover:text-[#5d7e61] font-medium"
+                  href={`/learner/lessons?lang=${activeLanguage}`}
+                  className="text-xs text-[#7a9b7e] hover:text-[#5d7e61] font-medium flex items-center gap-1"
                 >
-                  {t('common.start')}
-                  <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
+                  {t('dashboard.viewAll')}
+                  <ChevronRight className="w-3 h-3" aria-hidden="true" />
                 </Link>
-              </section>
-            </div>
+              </div>
 
-            {/* ─── RIGHT COLUMN ─── */}
-            <div className="space-y-6">
-              {/* Recent lessons */}
-              <section aria-labelledby="recent-lessons-heading">
-                <div className="flex justify-between items-center mb-4">
-                  <h2 id="recent-lessons-heading" className="text-sm font-semibold text-[#2d2d2d]">
-                    Recent {activeLanguage} Lessons
-                  </h2>
+              {recentLessons.length === 0 ? (
+                <div className="bg-white rounded-xl p-6 border border-[#f0ede8] text-center" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+                  <BookOpen className="w-8 h-8 text-[#d4dcd5] mx-auto mb-3" />
+                  <p className="text-[#8a8a8a] text-sm mb-4" style={{ lineHeight: '1.8' }}>
+                    {t('common.start')} {activeLanguage} {t('dashboard.lessons')}
+                  </p>
                   <Link
                     href={`/learner/lessons?lang=${activeLanguage}`}
-                    className="text-xs text-[#7a9b7e] hover:text-[#5d7e61] font-medium flex items-center gap-1"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#7a9b7e] text-white rounded-xl text-sm font-medium hover:bg-[#6b8c6f]"
                   >
-                    {t('dashboard.viewAll')}
-                    <ChevronRight className="w-3 h-3" aria-hidden="true" />
+                    {activeLanguage} {t('dashboard.lessons')}
+                    <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
-
-                {recentLessons.length === 0 ? (
-                  <div className="bg-white rounded-xl p-6 border border-[#f0ede8] text-center" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
-                    <BookOpen className="w-8 h-8 text-[#d4dcd5] mx-auto mb-3" aria-hidden="true" />
-                    <p className="text-[#8a8a8a] text-sm mb-4" style={{ lineHeight: '1.8' }}>
-                      {t('common.start')} {activeLanguage} {t('dashboard.lessons')}
-                    </p>
-                    <Link
-                      href={`/learner/lessons?lang=${activeLanguage}`}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#7a9b7e] text-white rounded-xl text-sm font-medium hover:bg-[#6b8c6f]"
+              ) : (
+                <div className="space-y-3">
+                  {recentLessons.slice(0, 4).map((lesson: any) => (
+                    <article
+                      key={lesson.id}
+                      className="bg-white rounded-xl p-4 border border-[#f0ede8] hover:border-[#d4dcd5] transition-colors"
+                      style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
                     >
-                      {activeLanguage} {t('dashboard.lessons')}
-                      <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                    </Link>
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    {recentLessons.slice(0, 4).map((lesson: any) => (
-                      <article
-                        key={lesson.id}
-                        className="bg-white rounded-xl p-4 border border-[#f0ede8] hover:border-[#d4dcd5] transition-colors"
-                        style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
-                      >
-                        <div className="flex items-start justify-between mb-2">
-                          <div className="flex-1 min-w-0">
-                            <h3 className="text-sm font-medium text-[#2d2d2d] mb-1" style={{ lineHeight: '1.5' }}>
-                              {lesson.title}
-                            </h3>
-                            <div className="flex items-center gap-2 text-xs text-[#8a8a8a]">
-                              {lesson.score && <span>Score: {lesson.score}%</span>}
-                            </div>
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-sm font-medium text-[#2d2d2d] mb-1" style={{ lineHeight: '1.5' }}>
+                            {lesson.title}
+                          </h3>
+                          <div className="flex items-center gap-2 text-xs text-[#8a8a8a]">
+                            {lesson.score && <span>Score: {lesson.score}%</span>}
                           </div>
-                          {lesson.status === 'completed' && (
-                            <CheckCircle className="w-4 h-4 text-[#7a9b7e] flex-shrink-0 mt-0.5" aria-label="Completed" />
-                          )}
                         </div>
-                        <div className="w-full h-1.5 bg-[#f0ede8] rounded-full overflow-hidden">
-                          <div
-                            className={`h-full rounded-full ${lesson.status === 'completed' ? 'bg-[#7a9b7e]' : 'bg-[#a3b8a5]'}`}
-                            style={{ width: `${lesson.progress}%` }}
-                            role="progressbar"
-                            aria-valuenow={lesson.progress}
-                            aria-valuemin={0}
-                            aria-valuemax={100}
-                          />
-                        </div>
-                        {lesson.status !== 'completed' && (
-                          <Link
-                            href={`/learner/lessons/${lesson.lessonId || lesson.id}`}
-                            className="inline-flex items-center gap-1 mt-2 text-xs text-[#7a9b7e] hover:text-[#5d7e61] font-medium"
-                          >
-                            {lesson.status === 'in-progress' ? t('common.continue') : t('common.start')}
-                            <ArrowRight className="w-3 h-3" aria-hidden="true" />
-                          </Link>
+                        {lesson.status === 'completed' && (
+                          <CheckCircle className="w-4 h-4 text-[#7a9b7e] flex-shrink-0 mt-0.5" aria-label="Completed" />
                         )}
-                      </article>
-                    ))}
-                  </div>
-                )}
-              </section>
-
-              {/* Quick links */}
-              <section className="bg-white rounded-xl p-5 border border-[#f0ede8]" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
-                <h2 className="text-sm font-semibold text-[#2d2d2d] mb-4">{t('nav.dashboard')}</h2>
-                <div className="space-y-2">
-                  <Link
-                    href="/learner/lessons"
-                    className="flex items-center justify-between p-3 rounded-lg hover:bg-[#f5f3ef] transition-colors group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <BookOpen className="w-4 h-4 text-[#7a9b7e]" aria-hidden="true" />
-                      <span className="text-sm text-[#2d2d2d]">{activeLanguage} {t('dashboard.lessons')}</span>
-                    </div>
-                    <ChevronRight className="w-3.5 h-3.5 text-[#8a8a8a] group-hover:text-[#6b6b6b]" aria-hidden="true" />
-                  </Link>
-                  <Link
-                    href="/learner/practice/writing"
-                    className="flex items-center justify-between p-3 rounded-lg hover:bg-[#f5f3ef] transition-colors group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <BookOpen className="w-4 h-4 text-[#7a9b7e]" aria-hidden="true" />
-                      <span className="text-sm text-[#2d2d2d]">{t('dashboard.practice')}</span>
-                    </div>
-                    <ChevronRight className="w-3.5 h-3.5 text-[#8a8a8a] group-hover:text-[#6b6b6b]" aria-hidden="true" />
-                  </Link>
-                  <Link
-                    href="/learner/practice/conversation"
-                    className="flex items-center justify-between p-3 rounded-lg hover:bg-[#f5f3ef] transition-colors group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <MessageCircle className="w-4 h-4 text-[#7a9b7e]" aria-hidden="true" />
-                      <span className="text-sm text-[#2d2d2d]">{t('dashboard.conversation')}</span>
-                    </div>
-                    <ChevronRight className="w-3.5 h-3.5 text-[#8a8a8a] group-hover:text-[#6b6b6b]" aria-hidden="true" />
-                  </Link>
-                  <Link
-                    href="/learner/progress"
-                    className="flex items-center justify-between p-3 rounded-lg hover:bg-[#f5f3ef] transition-colors group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Target className="w-4 h-4 text-[#7a97b0]" aria-hidden="true" />
-                      <span className="text-sm text-[#2d2d2d]">{t('nav.progress')}</span>
-                    </div>
-                    <ChevronRight className="w-3.5 h-3.5 text-[#8a8a8a] group-hover:text-[#6b6b6b]" aria-hidden="true" />
-                  </Link>
-                  <Link
-                    href="/learner/settings"
-                    className="flex items-center justify-between p-3 rounded-lg hover:bg-[#f5f3ef] transition-colors group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Globe className="w-4 h-4 text-[#9b8ab0]" aria-hidden="true" />
-                      <span className="text-sm text-[#2d2d2d]">{t('nav.settings')}</span>
-                    </div>
-                    <ChevronRight className="w-3.5 h-3.5 text-[#8a8a8a] group-hover:text-[#6b6b6b]" aria-hidden="true" />
-                  </Link>
+                      </div>
+                      <div className="w-full h-1.5 bg-[#f0ede8] rounded-full overflow-hidden">
+                        <div
+                          className={`h-full rounded-full ${lesson.status === 'completed' ? 'bg-[#7a9b7e]' : 'bg-[#a3b8a5]'}`}
+                          style={{ width: `${lesson.progress}%` }}
+                          role="progressbar"
+                          aria-valuenow={lesson.progress}
+                          aria-valuemin={0}
+                          aria-valuemax={100}
+                        />
+                      </div>
+                      {lesson.status !== 'completed' && (
+                        <Link
+                          href={`/learner/lessons/${lesson.lessonId || lesson.id}`}
+                          className="inline-flex items-center gap-1 mt-2 text-xs text-[#7a9b7e] hover:text-[#5d7e61] font-medium"
+                        >
+                          {lesson.status === 'in-progress' ? t('common.continue') : t('common.start')}
+                          <ArrowRight className="w-3 h-3" />
+                        </Link>
+                      )}
+                    </article>
+                  ))}
                 </div>
-              </section>
-            </div>
+              )}
+            </section>
+
+            {/* Quick links */}
+            <section className="bg-white rounded-xl p-5 border border-[#f0ede8]" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+              <h2 className="text-sm font-semibold text-[#2d2d2d] mb-4">{t('nav.dashboard')}</h2>
+              <div className="space-y-2">
+                <Link
+                  href="/learner/lessons"
+                  className="flex items-center justify-between p-3 rounded-lg hover:bg-[#f5f3ef] transition-colors group"
+                >
+                  <div className="flex items-center gap-3">
+                    <BookOpen className="w-4 h-4 text-[#7a9b7e]" />
+                    <span className="text-sm text-[#2d2d2d]">{activeLanguage} {t('dashboard.lessons')}</span>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-[#8a8a8a] group-hover:text-[#6b6b6b]" />
+                </Link>
+                <Link
+                  href="/learner/progress"
+                  className="flex items-center justify-between p-3 rounded-lg hover:bg-[#f5f3ef] transition-colors group"
+                >
+                  <div className="flex items-center gap-3">
+                    <Target className="w-4 h-4 text-[#7a97b0]" />
+                    <span className="text-sm text-[#2d2d2d]">{t('nav.progress')}</span>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-[#8a8a8a] group-hover:text-[#6b6b6b]" />
+                </Link>
+                <Link
+                  href="/learner/settings"
+                  className="flex items-center justify-between p-3 rounded-lg hover:bg-[#f5f3ef] transition-colors group"
+                >
+                  <div className="flex items-center gap-3">
+                    <Globe className="w-4 h-4 text-[#9b8ab0]" />
+                    <span className="text-sm text-[#2d2d2d]">{t('nav.settings')}</span>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-[#8a8a8a] group-hover:text-[#6b6b6b]" />
+                </Link>
+              </div>
+            </section>
           </div>
-        )}
+        </div>
       </main>
     </div>
   );

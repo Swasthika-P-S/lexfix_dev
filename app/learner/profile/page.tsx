@@ -147,6 +147,7 @@ export default function LearnerProfile() {
             {[
               { href: '/learner/dashboard', label: 'Dashboard', active: false },
               { href: '/learner/lessons', label: 'Lessons', active: false },
+              { href: '/learner/practice/writing', label: 'Practice Writing', active: false },
               { href: '/learner/progress', label: 'Progress', active: false },
               { href: '/learner/profile', label: 'Profile', active: true },
               { href: '/learner/settings', label: 'Settings', active: false },
