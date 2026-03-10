@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 import { useAccessibility } from '@/components/providers/AccessibilityProvider';
 import { useToast } from '@/components/providers/ToastProvider';
+import { useLanguage } from '@/components/providers/LanguageProvider';
 import {
   Eye,
   Volume2,
@@ -17,10 +18,12 @@ import {
   ArrowLeft,
 } from 'lucide-react';
 import Link from 'next/link';
+import Logo from '@/components/ui/Logo';
 
 export default function LearnerSettingsPage() {
   const { preferences, setPreferences } = useAccessibility();
   const { success, error: toastError } = useToast();
+  const { language, setLanguage, t } = useLanguage();
 
   const [formData, setFormData] = useState({
     fontFamily: preferences.fontFamily || 'lexend',
@@ -99,36 +102,66 @@ export default function LearnerSettingsPage() {
 
   return (
     <div className="min-h-screen bg-[#faf9f7]">
-      {/* Compact header */}
-      <header className="border-b border-[#f0ede8] bg-white/80 backdrop-blur-sm sticky top-0 z-30">
-        <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/learner/dashboard" className="flex items-center gap-2 text-[#6b6b6b] hover:text-[#2d2d2d] transition-colors">
-            <ArrowLeft className="w-4 h-4" aria-hidden="true" />
-            <span className="text-sm font-medium">Back</span>
+      <header role="banner" className="bg-white border-b border-[#e8e5e0] sticky top-0 z-30">
+        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+          <Link href="/" aria-label="LexFix home">
+            <Logo />
           </Link>
-          <h1 className="text-base font-semibold text-[#2d2d2d]">Settings</h1>
-          <button
-            onClick={handleSave}
-            disabled={isSaving}
-            className="flex items-center gap-1.5 px-4 py-1.5 bg-[#7a9b7e] hover:bg-[#6b8c6f] text-white text-sm font-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            {isSaving ? (
-              <>
-                <div className="animate-spin rounded-full h-3.5 w-3.5 border-2 border-white border-t-transparent" aria-hidden="true" />
-                <span>Saving</span>
-              </>
-            ) : saveSuccess ? (
-              <>
-                <Check className="w-3.5 h-3.5" aria-hidden="true" />
-                <span>Saved</span>
-              </>
-            ) : (
-              <>
-                <Save className="w-3.5 h-3.5" aria-hidden="true" />
-                <span>Save</span>
-              </>
-            )}
-          </button>
+
+          <nav role="navigation" aria-label="Main navigation" className="flex items-center gap-1 flex-nowrap">
+            {[
+              { href: '/learner/dashboard', key: 'dashboard', active: false },
+              { href: '/learner/lessons', key: 'lessons', active: false },
+              { href: '/learner/practice/writing', key: 'practice', active: false },
+              { href: '/learner/progress', key: 'progress', active: false },
+              { href: '/learner/profile', key: 'profile', active: false },
+              { href: '/learner/settings', key: 'settings', active: true },
+            ].map(item => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${item.active
+                  ? 'bg-[#f0f4f0] text-[#5d7e61]'
+                  : 'text-[#6b6b6b] hover:bg-[#f5f3ef] hover:text-[#2d2d2d]'
+                  }`}
+                {...(item.active ? { 'aria-current': 'page' as const } : {})}
+              >
+                {t(`nav.${item.key}`)}
+              </Link>
+            ))}
+
+            <div className="w-px h-5 bg-[#e8e5e0] mx-2" />
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleSave}
+                disabled={isSaving}
+                className="flex items-center gap-1.5 px-4 py-1.5 bg-[#7a9b7e] hover:bg-[#6b8c6f] text-white text-sm font-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                {isSaving ? (
+                  <>
+                    <div className="animate-spin rounded-full h-3.5 w-3.5 border-2 border-white border-t-transparent" aria-hidden="true" />
+                    <span>{t('common.saving') || 'Saving'}</span>
+                  </>
+                ) : saveSuccess ? (
+                  <>
+                    <Check className="w-3.5 h-3.5" aria-hidden="true" />
+                    <span>{t('common.saved') || 'Saved'}</span>
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-3.5 h-3.5" aria-hidden="true" />
+                    <span>{t('common.save') || 'Save'}</span>
+                  </>
+                )}
+              </button>
+
+              <div className="w-px h-5 bg-[#e8e5e0] mx-1" />
+              <Link href="/logout" className="px-3 py-2 rounded-lg text-sm text-[#8a8a8a] hover:text-[#c27171] hover:bg-red-50/50 flex-shrink-0 transition-colors">
+                {t('nav.signOut')}
+              </Link>
+            </div>
+          </nav>
         </div>
       </header>
 

@@ -18,7 +18,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { 
+import {
   BookOpen,
   User,
   Mail,
@@ -31,7 +31,8 @@ import {
   Clock,
   ArrowRight,
   Settings,
-, Sparkles } from 'lucide-react';
+} from 'lucide-react';
+import Logo from '@/components/ui/Logo';
 
 export default function LearnerProfile() {
   const mainRef = useRef<HTMLElement>(null);
@@ -138,14 +139,11 @@ export default function LearnerProfile() {
     <div className="min-h-screen bg-[#faf9f7]">
       {/* Header — identical calm nav */}
       <header role="banner" className="bg-white border-b border-[#e8e5e0] sticky top-0 z-10">
-        <div className="max-w-5xl mx-auto px-6 py-3.5 flex justify-between items-center">
-          <Link href="/" className="text-lg font-semibold text-[#2d2d2d]">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5" />
-              <span>LexFix</span>
-            </div>
+        <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+          <Link href="/" aria-label="LexFix home">
+            <Logo />
           </Link>
-          <nav role="navigation" aria-label="Main navigation" className="flex items-center gap-1">
+          <nav role="navigation" aria-label="Main navigation" className="flex items-center gap-1 flex-nowrap">
             {[
               { href: '/learner/dashboard', label: 'Dashboard', active: false },
               { href: '/learner/lessons', label: 'Lessons', active: false },
@@ -156,9 +154,9 @@ export default function LearnerProfile() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${item.active
-                    ? 'bg-[#f0f4f0] text-[#5d7e61]'
-                    : 'text-[#6b6b6b] hover:bg-[#f5f3ef] hover:text-[#2d2d2d]'
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${item.active
+                  ? 'bg-[#f0f4f0] text-[#5d7e61]'
+                  : 'text-[#6b6b6b] hover:bg-[#f5f3ef] hover:text-[#2d2d2d]'
                   }`}
                 {...(item.active ? { 'aria-current': 'page' as const } : {})}
               >
@@ -166,7 +164,7 @@ export default function LearnerProfile() {
               </Link>
             ))}
             <div className="w-px h-5 bg-[#e8e5e0] mx-2" />
-            <Link href="/logout" className="px-3 py-2 rounded-lg text-sm text-[#8a8a8a] hover:text-[#c27171] hover:bg-red-50/50">
+            <Link href="/logout" className="px-3 py-2 rounded-lg text-sm text-[#8a8a8a] hover:text-[#c27171] hover:bg-red-50/50 flex-shrink-0">
               Sign out
             </Link>
           </nav>

@@ -16,6 +16,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, Check, BookOpen, User, Accessibility, Brain, ClipboardCheck, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import Logo from '@/components/ui/Logo';
 import {
   saveLearnerOnboarding,
   submitAssessment as apiSubmitAssessment,
@@ -330,16 +331,8 @@ export default function EnhancedOnboardingPage() {
       }`}>
       {/* Header */}
       <header className="container mx-auto px-6 py-5 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#7da47f] to-[#5a8c5c] flex items-center justify-center">
-            <BookOpen className="w-5 h-5 text-white" aria-hidden="true" />
-          </div>
-          <span className={`text-2xl font-bold tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}>
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5" />
-              <span>LexFix</span>
-            </div>
-          </span>
+        <Link href="/" aria-label="LexFix home">
+          <Logo />
         </Link>
         <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
           Step {currentStep} of {totalSteps}

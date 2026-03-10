@@ -27,50 +27,33 @@ export default function VoiceAssistant() {
 
     const processCommand = useCallback((text: string) => {
         const input = text.toLowerCase().trim();
+        console.log('[Voice Navigation] Recognized:', input);
         setTranscript(text);
 
-        // 1. Navigation Commands
-        if (input.includes('go to') || input.includes('open')) {
-            if (input.includes('login') || input.includes('sign in')) {
-                setLastAction('Navigating to Login');
-                router.push('/login');
-                return true;
-            }
-            if (input.includes('signup') || input.includes('sign up') || input.includes('register')) {
-                setLastAction('Navigating to Signup');
-                router.push('/signup');
-                return true;
-            }
-            if (input.includes('dashboard')) {
-                setLastAction('Navigating to Dashboard');
-                router.push('/learner/dashboard');
-                return true;
-            }
-            if (input.includes('settings')) {
-                setLastAction('Navigating to Settings');
-                router.push('/learner/settings');
-                return true;
-            }
-            if (input.includes('student')) {
-                setLastAction('Navigating to Students');
-                router.push('/educator/students');
-                return true;
-            }
-            if (input.includes('analytic') || input.includes('stat')) {
-                setLastAction('Navigating to Analytics');
-                router.push('/admin/analytics');
-                return true;
-            }
-            if (input.includes('lesson')) {
-                setLastAction('Navigating to Lessons');
-                router.push('/learner/lessons');
+        // 1. Navigation Keywords (Direct matching)
+        const commands = [
+            { keywords: ['login', 'sign in', 'signin'], path: '/login', label: 'Login' },
+            { keywords: ['signup', 'sign up', 'register'], path: '/signup', label: 'Signup' },
+            { keywords: ['dashboard', 'home'], path: '/learner/dashboard', label: 'Dashboard' },
+            { keywords: ['settings', 'preference', 'config'], path: '/learner/settings', label: 'Settings' },
+            { keywords: ['student'], path: '/educator/students', label: 'Students' },
+            { keywords: ['analytic', 'stat'], path: '/admin/analytics', label: 'Analytics' },
+            { keywords: ['lesson', 'practice', 'course'], path: '/learner/lessons', label: 'Lessons' },
+            { keywords: ['contact', 'support', 'help'], path: '/contact', label: 'Contact Support' },
+        ];
+
+        for (const cmd of commands) {
+            if (cmd.keywords.some(kw => input.includes(kw))) {
+                console.log(`[Voice Navigation] Matching "${cmd.label}", redirecting to ${cmd.path}`);
+                setLastAction(`Navigating to ${cmd.label}`);
+                router.push(cmd.path);
                 return true;
             }
         }
 
         // 2. Input Filling Commands
-        if (input.includes('my email is') || input.includes('email is')) {
-            const email = input.split('is').pop()?.trim();
+        if (input.includes('my email is') || input.includes('email is') || input.includes('email:')) {
+            const email = input.split(/is|:/).pop()?.trim();
             if (email) {
                 const emailInput = document.querySelector('input[type="email"], input[name="email"]') as HTMLInputElement;
                 if (emailInput) {
@@ -82,8 +65,8 @@ export default function VoiceAssistant() {
             }
         }
 
-        if (input.includes('my name is') || input.includes('name is')) {
-            const name = input.split('is').pop()?.trim();
+        if (input.includes('my name is') || input.includes('name is') || input.includes('name:')) {
+            const name = input.split(/is|:/).pop()?.trim();
             if (name) {
                 const nameInput = document.querySelector('input[name="name"], input[name="firstName"], input[placeholder*="Name"]') as HTMLInputElement;
                 if (nameInput) {
@@ -95,6 +78,7 @@ export default function VoiceAssistant() {
             }
         }
 
+        console.log('[Voice Navigation] No command matched.');
         return false;
     }, [router]);
 
@@ -120,13 +104,18 @@ export default function VoiceAssistant() {
         recognition.onresult = (event: any) => {
             const result = event.results[event.results.length - 1];
             const text = result[0].transcript;
+
+            // Update UI with latest transcript
             setTranscript(text);
 
-            if (result.isFinal) {
-                const handled = processCommand(text);
-                if (handled) {
-                    setTimeout(() => setIsListening(false), 1500);
+            // Process command immediately (including interim results)
+            const handled = processCommand(text);
+            if (handled) {
+                // If a command was matched, stop listening immediately
+                if (recognitionRef.current) {
+                    recognitionRef.current.stop();
                 }
+                setTimeout(() => setIsListening(false), 1000);
             }
         };
 
