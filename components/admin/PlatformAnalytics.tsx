@@ -97,14 +97,14 @@ export default function PlatformAnalytics() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Active Now</CardTitle>
+            <CardTitle className="text-sm font-medium">Active Accounts</CardTitle>
             <Activity className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {Math.floor(data.overview.activeUsers * 0.05)}
+              {data.overview.activeUsers}
             </div>
-            <p className="text-xs text-muted-foreground">Users online</p>
+            <p className="text-xs text-muted-foreground">Unrestricted users</p>
           </CardContent>
         </Card>
       </div>
