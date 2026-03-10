@@ -40,6 +40,7 @@ import {
   Sparkles,
   MessageCircle
 } from 'lucide-react';
+import Logo from '@/components/ui/Logo';
 
 export default function LearnerDashboard() {
   const mainRef = useRef<HTMLElement>(null);

@@ -190,7 +190,7 @@ export default function LearnerSettingsPage() {
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-6 py-8 space-y-5">
+      <main className="max-w-5xl mx-auto px-6 py-8 space-y-5">
         {/* Page intro */}
         <p className="text-sm text-[#8a8a8a]">Customise your learning experience and privacy preferences.</p>
 

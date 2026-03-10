@@ -33,8 +33,6 @@ import {
   Settings,
 } from 'lucide-react';
 import Logo from '@/components/ui/Logo';
-  Sparkles 
-} from 'lucide-react';
 
 export default function LearnerProfile() {
   const mainRef = useRef<HTMLElement>(null);
@@ -174,7 +172,7 @@ export default function LearnerProfile() {
       </header>
 
       {/* Main */}
-      <main ref={mainRef} tabIndex={-1} className="max-w-3xl mx-auto px-6 py-10">
+      <main ref={mainRef} tabIndex={-1} className="max-w-5xl mx-auto px-6 py-10">
         <h1 className="text-2xl font-semibold text-[#2d2d2d] mb-1" style={{ lineHeight: '1.4' }}>
           My Profile
         </h1>
