@@ -126,9 +126,9 @@ export default function LearnerSettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#faf9f7]">
-      <header role="banner" className="bg-white border-b border-[#e8e5e0] sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div className="min-h-screen bg-[#faf9f7] pt-[76px]">
+      <header role="banner" className="bg-white border-b border-[#e8e5e0] fixed top-0 left-0 w-full z-50">
+        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" aria-label="LexFix home">
             <Logo />
           </Link>
@@ -154,6 +154,33 @@ export default function LearnerSettingsPage() {
                 {t(`nav.${item.key}`)}
               </Link>
             ))}
+
+            <div className="w-px h-5 bg-[#e8e5e0] mx-2" />
+
+            {/* UI Language Selector */}
+            <div
+              className="flex items-center rounded-lg border border-[#e8e5e0] overflow-hidden flex-shrink-0"
+              role="group"
+              aria-label="UI language"
+            >
+              <button
+                onClick={() => setLanguage('en')}
+                className={`px-2.5 py-1.5 text-xs font-medium transition-colors ${language === 'en' ? 'bg-[#7a9b7e] text-white' : 'text-[#8a8a8a] hover:bg-[#f0ede8] bg-white'}`}
+                aria-pressed={language === 'en'}
+                title="Switch to English"
+              >
+                EN
+              </button>
+              <div className="w-px h-4 bg-[#e8e5e0]" />
+              <button
+                onClick={() => setLanguage('ta')}
+                className={`px-2.5 py-1.5 text-xs font-medium transition-colors ${language === 'ta' ? 'bg-[#7a9b7e] text-white' : 'text-[#8a8a8a] hover:bg-[#f0ede8] bg-white'}`}
+                aria-pressed={language === 'ta'}
+                title="தமிழுக்கு மாறவும்"
+              >
+                த
+              </button>
+            </div>
 
             <div className="w-px h-5 bg-[#e8e5e0] mx-2" />
 
@@ -190,7 +217,7 @@ export default function LearnerSettingsPage() {
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-6 py-8 space-y-5">
+      <main className="max-w-5xl mx-auto px-6 py-8 space-y-5">
         {/* Page intro */}
         <p className="text-sm text-[#8a8a8a]">Customise your learning experience and privacy preferences.</p>
 

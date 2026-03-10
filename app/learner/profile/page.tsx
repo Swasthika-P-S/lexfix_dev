@@ -33,12 +33,12 @@ import {
   Settings,
 } from 'lucide-react';
 import Logo from '@/components/ui/Logo';
-  Sparkles 
-} from 'lucide-react';
+import { useLanguage } from '@/components/providers/LanguageProvider';
 
 export default function LearnerProfile() {
   const mainRef = useRef<HTMLElement>(null);
   const router = useRouter();
+  const { language, setLanguage, t } = useLanguage();
   const [profile, setProfile] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -138,9 +138,9 @@ export default function LearnerProfile() {
     : '--';
 
   return (
-    <div className="min-h-screen bg-[#faf9f7]">
+    <div className="min-h-screen bg-[#faf9f7] pt-[76px]">
       {/* Header — identical calm nav */}
-      <header role="banner" className="bg-white border-b border-[#e8e5e0] sticky top-0 z-10">
+      <header role="banner" className="bg-white border-b border-[#e8e5e0] fixed top-0 left-0 w-full z-50">
         <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
           <Link href="/" aria-label="LexFix home">
             <Logo />
@@ -149,6 +149,7 @@ export default function LearnerProfile() {
             {[
               { href: '/learner/dashboard', label: 'Dashboard', active: false },
               { href: '/learner/lessons', label: 'Lessons', active: false },
+              { href: '/learner/practice/writing', label: 'Practice Writing', active: false },
               { href: '/learner/progress', label: 'Progress', active: false },
               { href: '/learner/profile', label: 'Profile', active: true },
               { href: '/learner/settings', label: 'Settings', active: false },
@@ -166,6 +167,33 @@ export default function LearnerProfile() {
               </Link>
             ))}
             <div className="w-px h-5 bg-[#e8e5e0] mx-2" />
+
+            {/* UI Language Selector */}
+            <div
+              className="flex items-center rounded-lg border border-[#e8e5e0] overflow-hidden flex-shrink-0"
+              role="group"
+              aria-label="UI language"
+            >
+              <button
+                onClick={() => setLanguage('en')}
+                className={`px-2.5 py-1.5 text-xs font-medium transition-colors ${language === 'en' ? 'bg-[#7a9b7e] text-white' : 'text-[#8a8a8a] hover:bg-[#f0ede8] bg-white'}`}
+                aria-pressed={language === 'en'}
+                title="Switch to English"
+              >
+                EN
+              </button>
+              <div className="w-px h-4 bg-[#e8e5e0]" />
+              <button
+                onClick={() => setLanguage('ta')}
+                className={`px-2.5 py-1.5 text-xs font-medium transition-colors ${language === 'ta' ? 'bg-[#7a9b7e] text-white' : 'text-[#8a8a8a] hover:bg-[#f0ede8] bg-white'}`}
+                aria-pressed={language === 'ta'}
+                title="தமிழுக்கு மாறவும்"
+              >
+                த
+              </button>
+            </div>
+
+            <div className="w-px h-5 bg-[#e8e5e0] mx-2" />
             <Link href="/logout" className="px-3 py-2 rounded-lg text-sm text-[#8a8a8a] hover:text-[#c27171] hover:bg-red-50/50 flex-shrink-0">
               Sign out
             </Link>
@@ -174,7 +202,7 @@ export default function LearnerProfile() {
       </header>
 
       {/* Main */}
-      <main ref={mainRef} tabIndex={-1} className="max-w-3xl mx-auto px-6 py-10">
+      <main ref={mainRef} tabIndex={-1} className="max-w-5xl mx-auto px-6 py-10">
         <h1 className="text-2xl font-semibold text-[#2d2d2d] mb-1" style={{ lineHeight: '1.4' }}>
           My Profile
         </h1>

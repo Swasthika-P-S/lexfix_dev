@@ -48,10 +48,10 @@ export default function WritingPracticePage() {
   const words = language === 'ta' ? TA_WORDS : EN_WORDS;
 
   return (
-    <div className="min-h-screen bg-[#faf9f7]">
+    <div className="min-h-screen bg-[#faf9f7] pt-[76px]">
       {/* Header */}
-      <header role="banner" className="bg-white border-b border-[#e8e5e0] sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <header role="banner" className="bg-white border-b border-[#e8e5e0] fixed top-0 left-0 w-full z-50">
+        <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
           <Link href="/" aria-label="LexFix home">
             <Logo />
           </Link>
@@ -77,6 +77,33 @@ export default function WritingPracticePage() {
                 {t ? t(`nav.${item.key}`) : item.key}
               </Link>
             ))}
+
+            <div className="w-px h-5 bg-[#e8e5e0] mx-2" />
+
+            {/* UI Language Selector */}
+            <div
+              className="flex items-center rounded-lg border border-[#e8e5e0] overflow-hidden flex-shrink-0"
+              role="group"
+              aria-label="UI language"
+            >
+              <button
+                onClick={() => setLanguage('en')}
+                className={`px-2.5 py-1.5 text-xs font-medium transition-colors ${language === 'en' ? 'bg-[#7a9b7e] text-white' : 'text-[#8a8a8a] hover:bg-[#f0ede8] bg-white'}`}
+                aria-pressed={language === 'en'}
+                title="Switch to English"
+              >
+                EN
+              </button>
+              <div className="w-px h-4 bg-[#e8e5e0]" />
+              <button
+                onClick={() => setLanguage('ta')}
+                className={`px-2.5 py-1.5 text-xs font-medium transition-colors ${language === 'ta' ? 'bg-[#7a9b7e] text-white' : 'text-[#8a8a8a] hover:bg-[#f0ede8] bg-white'}`}
+                aria-pressed={language === 'ta'}
+                title="தமிழுக்கு மாறவும்"
+              >
+                த
+              </button>
+            </div>
 
             <div className="w-px h-5 bg-[#e8e5e0] mx-2" />
             <Link href="/logout" className="px-3 py-2 rounded-lg text-sm text-[#8a8a8a] hover:text-[#c27171] hover:bg-red-50/50 flex-shrink-0">

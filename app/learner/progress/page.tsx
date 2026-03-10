@@ -29,9 +29,9 @@ import {
   Calendar,
   Flame,
   ChevronRight,
+  Sparkles,
 } from 'lucide-react';
 import Logo from '@/components/ui/Logo';
-  Sparkles } from 'lucide-react';
 
 interface ProgressData {
   competencies: any[];
@@ -180,10 +180,10 @@ export default function ProgressPage() {
   ] as const;
 
   return (
-    <div className="min-h-screen bg-[#faf9f7]">
+    <div className="min-h-screen bg-[#faf9f7] pt-[76px]">
 
       {/* ── Header ── */}
-      <header role="banner" className="bg-white border-b border-[#f0ede8] sticky top-0 z-30">
+      <header role="banner" className="bg-white border-b border-[#f0ede8] fixed top-0 left-0 w-full z-50">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" aria-label="LexFix home">
             <Logo />
@@ -213,29 +213,35 @@ export default function ProgressPage() {
 
             <div className="w-px h-5 bg-[#e8e5e0] mx-2" />
 
-            <div className="flex items-center gap-3">
-              <div
-                className="flex items-center rounded-lg border border-[#e8e5e0] overflow-hidden"
-                role="group"
-                aria-label={t('common.uiLanguage')}
+            {/* UI Language Selector */}
+            <div
+              className="flex items-center rounded-lg border border-[#e8e5e0] overflow-hidden flex-shrink-0"
+              role="group"
+              aria-label="UI language"
+            >
+              <button
+                onClick={() => setLanguage('en')}
+                className={`px-2.5 py-1.5 text-xs font-medium transition-colors ${language === 'en' ? 'bg-[#7a9b7e] text-white' : 'text-[#8a8a8a] hover:bg-[#f0ede8] bg-white'}`}
+                aria-pressed={language === 'en'}
+                title="Switch to English"
               >
-                {(['en', 'ta'] as const).map((lang, i) => (
-                  <button
-                    key={lang}
-                    onClick={() => setLanguage(lang)}
-                    className={`px-2.5 py-1.5 text-xs font-medium transition-colors ${language === lang ? 'bg-[#7a9b7e] text-white' : 'text-[#8a8a8a] hover:bg-[#f0ede8] bg-white'
-                      }${i === 0 ? '' : ' border-l border-[#e8e5e0]'}`}
-                    aria-pressed={language === lang}
-                  >
-                    {lang === 'en' ? 'EN' : 'த'}
-                  </button>
-                ))}
-              </div>
-              <div className="w-px h-5 bg-[#e8e5e0] mx-1" />
-              <Link href="/logout" className="px-3 py-2 rounded-lg text-sm text-[#8a8a8a] hover:text-[#c27171] hover:bg-red-50/50 flex-shrink-0 transition-colors">
-                {t('nav.signOut')}
-              </Link>
+                EN
+              </button>
+              <div className="w-px h-4 bg-[#e8e5e0]" />
+              <button
+                onClick={() => setLanguage('ta')}
+                className={`px-2.5 py-1.5 text-xs font-medium transition-colors ${language === 'ta' ? 'bg-[#7a9b7e] text-white' : 'text-[#8a8a8a] hover:bg-[#f0ede8] bg-white'}`}
+                aria-pressed={language === 'ta'}
+                title="தமிழுக்கு மாறவும்"
+              >
+                த
+              </button>
             </div>
+
+            <div className="w-px h-5 bg-[#e8e5e0] mx-2" />
+            <Link href="/logout" className="px-3 py-2 rounded-lg text-sm text-[#8a8a8a] hover:text-[#c27171] hover:bg-red-50/50 flex-shrink-0">
+              Sign out
+            </Link>
           </nav>
         </div>
       </header>
@@ -410,7 +416,7 @@ export default function ProgressPage() {
           </div>
         )}
       </main>
-    </div>
+    </div >
   );
 }
 
