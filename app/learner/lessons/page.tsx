@@ -12,15 +12,16 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useLanguage } from '@/components/providers/LanguageProvider';
-import { 
+import {
   BookOpen,
   Search,
   Clock,
   CheckCircle,
   ArrowRight,
   Globe,
-  ChevronDown,
-  Sparkles } from 'lucide-react';
+  ChevronDown
+} from 'lucide-react';
+import Logo from '@/components/ui/Logo';
 
 interface Lesson {
   id: string;
@@ -141,15 +142,12 @@ export default function LessonsListPage() {
     <div className="min-h-screen bg-[#faf9f7]">
       {/* ── Header ── */}
       <header role="banner" className="bg-white border-b border-[#e8e5e0] sticky top-0 z-10">
-        <div className="max-w-5xl mx-auto px-6 py-3.5 flex justify-between items-center">
-          <Link href="/" className="text-lg font-semibold text-[#2d2d2d]">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5" />
-              <span>LexFix</span>
-            </div>
+        <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+          <Link href="/" aria-label="LexFix home">
+            <Logo />
           </Link>
 
-          <nav role="navigation" aria-label="Main navigation" className="flex items-center gap-1">
+          <nav role="navigation" aria-label="Main navigation" className="flex items-center gap-1 flex-nowrap">
             {[
               { href: '/learner/dashboard', key: 'dashboard', active: false },
               { href: '/learner/lessons', key: 'lessons', active: true },
@@ -161,7 +159,7 @@ export default function LessonsListPage() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${item.active
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${item.active
                   ? 'bg-[#f0f4f0] text-[#5d7e61]'
                   : 'text-[#6b6b6b] hover:bg-[#f5f3ef] hover:text-[#2d2d2d]'
                   }`}

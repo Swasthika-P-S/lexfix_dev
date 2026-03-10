@@ -8,9 +8,12 @@
  */
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import WritePractice, { WritePracticeWord } from '@/components/WritePractice';
 import { ArrowLeft, Globe } from 'lucide-react';
+import { useLanguage } from '@/components/providers/LanguageProvider';
+import Logo from '@/components/ui/Logo';
 
 const EN_WORDS: WritePracticeWord[] = [
   { id: 'w1', target: 'Hello', translation: 'வணக்கம்', hint: 'A common greeting' },
@@ -40,47 +43,68 @@ const TA_WORDS: WritePracticeWord[] = [
 
 export default function WritingPracticePage() {
   const router = useRouter();
-  const [language, setLanguage] = useState<'en' | 'ta'>('en');
+  const { language, setLanguage, t } = useLanguage();
   const [completed, setCompleted] = useState(false);
   const words = language === 'ta' ? TA_WORDS : EN_WORDS;
 
   return (
     <div className="min-h-screen bg-[#faf9f7]">
       {/* Header */}
-      <header className="border-b border-[#e8e5e0] bg-white">
-        <div className="max-w-2xl mx-auto px-6 py-4 flex items-center justify-between">
-          <button
-            onClick={() => router.back()}
-            className="flex items-center gap-2 text-sm text-[#6b6b6b] hover:text-[#2d2d2d] transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" /> Back
-          </button>
-          <h1 className="text-base font-semibold text-[#2d2d2d]">Writing Practice</h1>
-          <div className="w-16" />
+      <header role="banner" className="bg-white border-b border-[#e8e5e0] sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <Link href="/" aria-label="LexFix home">
+            <Logo />
+          </Link>
+
+          <nav role="navigation" aria-label="Main navigation" className="flex items-center gap-1 flex-nowrap">
+            {[
+              { href: '/learner/dashboard', key: 'dashboard', active: false },
+              { href: '/learner/lessons', key: 'lessons', active: false },
+              { href: '/learner/practice/writing', key: 'practice', active: true },
+              { href: '/learner/progress', key: 'progress', active: false },
+              { href: '/learner/profile', key: 'profile', active: false },
+              { href: '/learner/settings', key: 'settings', active: false },
+            ].map(item => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${item.active
+                  ? 'bg-[#f0f4f0] text-[#5d7e61]'
+                  : 'text-[#6b6b6b] hover:bg-[#f5f3ef] hover:text-[#2d2d2d]'
+                  }`}
+                {...(item.active ? { 'aria-current': 'page' as const } : {})}
+              >
+                {t ? t(`nav.${item.key}`) : item.key}
+              </Link>
+            ))}
+
+            <div className="w-px h-5 bg-[#e8e5e0] mx-2" />
+            <Link href="/logout" className="px-3 py-2 rounded-lg text-sm text-[#8a8a8a] hover:text-[#c27171] hover:bg-red-50/50 flex-shrink-0">
+              Sign out
+            </Link>
+          </nav>
         </div>
       </header>
 
-      <div className="max-w-2xl mx-auto px-6 py-8">
+      <div className="max-w-5xl mx-auto px-6 py-8">
         {/* Language toggle */}
         <div className="flex items-center justify-center gap-2 mb-8">
           <Globe className="w-4 h-4 text-[#8a8a8a]" />
           <button
             onClick={() => { setLanguage('en'); setCompleted(false); }}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-              language === 'en'
-                ? 'bg-[#7a9b7e] text-white'
-                : 'bg-[#f0ede8] text-[#6b6b6b] hover:bg-[#e8e5e0]'
-            }`}
+            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${language === 'en'
+              ? 'bg-[#7a9b7e] text-white'
+              : 'bg-[#f0ede8] text-[#6b6b6b] hover:bg-[#e8e5e0]'
+              }`}
           >
             English
           </button>
           <button
             onClick={() => { setLanguage('ta'); setCompleted(false); }}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-              language === 'ta'
-                ? 'bg-[#7a9b7e] text-white'
-                : 'bg-[#f0ede8] text-[#6b6b6b] hover:bg-[#e8e5e0]'
-            }`}
+            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${language === 'ta'
+              ? 'bg-[#7a9b7e] text-white'
+              : 'bg-[#f0ede8] text-[#6b6b6b] hover:bg-[#e8e5e0]'
+              }`}
           >
             தமிழ் (Tamil)
           </button>

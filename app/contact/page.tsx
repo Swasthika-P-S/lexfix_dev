@@ -1,7 +1,6 @@
-'use client';
-
 import Link from 'next/link';
-import { Github, Mail, ArrowLeft, Sparkles, User, MessageCircle } from 'lucide-react';
+import { Github, Mail, ArrowLeft, User, MessageCircle } from 'lucide-react';
+import Logo from '@/components/ui/Logo';
 
 export default function ContactPage() {
     const developers = [
@@ -42,11 +41,8 @@ export default function ContactPage() {
             {/* Header */}
             <header role="banner" className="border-b border-[#e8e5e0] bg-white">
                 <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
-                    <Link href="/" className="text-lg font-semibold text-[#2d2d2d]" aria-label="LexFix home">
-                        <div className="flex items-center gap-2">
-                            <Sparkles className="w-5 h-5 text-[#7a9b7e]" />
-                            <span>LexFix</span>
-                        </div>
+                    <Link href="/" aria-label="LexFix home">
+                        <Logo />
                     </Link>
                     <nav aria-label="Main navigation" className="flex items-center gap-3">
                         <Link href="/" className="flex items-center gap-2 text-sm text-[#6b6b6b] hover:text-[#2d2d2d] transition-colors">
@@ -70,8 +66,8 @@ export default function ContactPage() {
                         <div
                             key={dev.username}
                             className={`bg-white rounded-2xl p-8 border border-[#f0ede8] transition-all hover:shadow-lg hover:border-[#7a9b7e]/30 group ${index === developers.length - 1 && developers.length % 2 !== 0
-                                    ? 'md:col-span-2 md:max-w-md md:mx-auto w-full'
-                                    : ''
+                                ? 'md:col-span-2 md:max-w-md md:mx-auto w-full'
+                                : ''
                                 }`}
                             style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
                         >
@@ -120,7 +116,7 @@ export default function ContactPage() {
             {/* Footer */}
             <footer role="contentinfo" className="border-t border-[#e8e5e0] mt-auto">
                 <div className="max-w-5xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <span className="text-sm font-semibold text-[#2d2d2d]">LexFix</span>
+                    <Logo />
                     <p className="text-xs text-[#8a8a8a]">&copy; 2026 LexFix. Inclusive language learning for everyone.</p>
                 </div>
             </footer>

@@ -14,8 +14,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { AccessibilityToolbar } from '@/components/AccessibilityToolbar';
-import { 
+import {
   Trophy,
   ArrowLeft,
   Loader2,
@@ -27,7 +26,8 @@ import {
   Zap,
   Award,
   Mic,
-, Sparkles } from 'lucide-react';
+} from 'lucide-react';
+import Logo from '@/components/ui/Logo';
 
 interface Achievement {
   id: string;
@@ -105,20 +105,36 @@ export default function AchievementsPage() {
   return (
     <div className="min-h-screen bg-[#f5f1eb]">
       {/* Header */}
-      <header role="banner" className="bg-white border-b border-gray-200">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold text-gray-900">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5" />
-              <span>LexFix</span>
-            </div>
+      <header role="banner" className="bg-white border-b border-[#e8e5e0] sticky top-0 z-10">
+        <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+          <Link href="/" aria-label="LexFix home">
+            <Logo />
           </Link>
-          <nav role="navigation" aria-label="Main navigation" className="flex gap-6">
-            <Link href="/learner/dashboard" className="text-gray-700 hover:text-gray-900 font-medium">Dashboard</Link>
-            <Link href="/learner/lessons" className="text-gray-700 hover:text-gray-900 font-medium">My Lessons</Link>
-            <Link href="/learner/progress" className="text-gray-700 hover:text-gray-900 font-medium">Progress</Link>
-            <Link href="/learner/settings" className="text-gray-700 hover:text-gray-900 font-medium">Settings</Link>
-            <Link href="/logout" className="text-gray-700 hover:text-gray-900 font-medium">Logout</Link>
+          <nav role="navigation" aria-label="Main navigation" className="flex items-center gap-1 flex-nowrap">
+            {[
+              { href: '/learner/dashboard', label: 'Dashboard', active: false },
+              { href: '/learner/lessons', label: 'Lessons', active: false },
+              { href: '/learner/progress', label: 'Progress', active: false },
+              { href: '/learner/profile', label: 'Profile', active: false },
+              { href: '/learner/achievements', label: 'Achievements', active: true },
+              { href: '/learner/settings', label: 'Settings', active: false },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${item.active
+                  ? 'bg-[#f0f4f0] text-[#5d7e61]'
+                  : 'text-[#6b6b6b] hover:bg-[#f5f3ef] hover:text-[#2d2d2d]'
+                  }`}
+                {...(item.active ? { 'aria-current': 'page' as const } : {})}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <div className="w-px h-5 bg-[#e8e5e0] mx-2" />
+            <Link href="/logout" className="px-3 py-2 rounded-lg text-sm text-[#8a8a8a] hover:text-[#c27171] hover:bg-red-50/50 flex-shrink-0">
+              Sign out
+            </Link>
           </nav>
         </div>
       </header>
@@ -233,7 +249,6 @@ export default function AchievementsPage() {
         </section>
       </main>
 
-      <AccessibilityToolbar />
     </div>
   );
 }
