@@ -6,6 +6,7 @@ import { LogOut, Upload, LayoutDashboard } from 'lucide-react';
 import Link from 'next/link';
 import { logout as legacyLogout } from '@/lib/api';
 import Logo from '@/components/ui/Logo';
+import { useLanguage } from '@/components/providers/LanguageProvider';
 
 interface AdminHeaderProps {
     title?: string;
@@ -18,6 +19,7 @@ export default function AdminHeader({
     description = "Platform administration and monitoring",
     showUpload = true
 }: AdminHeaderProps) {
+    const { t } = useLanguage();
 
     const handleSignOut = async () => {
         // Clear legacy token
@@ -44,24 +46,24 @@ export default function AdminHeader({
                     </div>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                     {showUpload && (
-                        <Button asChild className="bg-[#5a8c5c] hover:bg-[#4a7c4c]">
+                        <Button asChild className="bg-[#7a9b7e] hover:bg-[#6b8c6f] text-white rounded-xl text-sm font-medium shadow-sm transition-all active:scale-[0.98]">
                             <Link href="/admin/content/upload">
                                 <Upload className="mr-2 h-4 w-4" />
-                                Upload Lesson
+                                {t('common.upload') || 'Upload Lesson'}
                             </Link>
                         </Button>
                     )}
 
-                    <Button
-                        variant="outline"
+                    <div className="w-px h-5 bg-[#e8e5e0] mx-1" />
+
+                    <button
                         onClick={handleSignOut}
-                        className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700"
+                        className="text-sm text-[#8a8a8a] hover:text-[#c27171] transition-colors font-medium px-2 py-1"
                     >
-                        <LogOut className="mr-2 h-4 w-4" />
                         Sign Out
-                    </Button>
+                    </button>
                 </div>
             </div>
         </header>

@@ -25,7 +25,7 @@ export default async function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#faf9f7] pt-[76px]">
+    <div className="min-h-screen bg-[#faf9f7] pt-[110px]">
       <AdminHeader />
 
       {/* Main Content */}
