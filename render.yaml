@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: lexfix-collaboration-service
+    env: node
+    rootDir: services/collaboration-service
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: "3002"
+      - key: FRONTEND_URL
+        sync: false
+      - key: REDIS_URL
+        sync: false
+
+  - type: web
+    name: lexfix-ml-service
+    env: docker
+    rootDir: services/ml-service
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: CORS_ORIGINS
+        sync: false
+      - key: PORT
+        value: "8000"
