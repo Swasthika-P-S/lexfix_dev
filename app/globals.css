@@ -141,14 +141,6 @@
   --radius: 0.75rem;
 }
 
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-color: #1f2937;
-    --text-color: #f9fafb;
-    --border-color: #4b5563;
-  }
-}
 
 /* ============================================
    FOCUS STYLES - WCAG AAA REQUIREMENT
