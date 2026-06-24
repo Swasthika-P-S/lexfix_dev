@@ -337,6 +337,7 @@ html[data-color-scheme="dark"] body {
 
 html[data-color-scheme="dark"] [class*="min-h-screen"] {
   background-color: #0f172a !important;
+  background-image: none !important;
   color: #e2e8f0 !important;
 }
 
@@ -352,12 +353,14 @@ html[data-color-scheme="dark"] [class*="border-\[\#e8e5e0\]"] {
   border-color: #334155 !important;
 }
 
-html[data-color-scheme="dark"] [class*="text-\[\#2d2d2d\]"] {
+html[data-color-scheme="dark"] [class*="text-\[\#2d2d2d\]"],
+html[data-color-scheme="dark"] [class*="text-slate-900"] {
   color: #f1f5f9 !important;
 }
 
 html[data-color-scheme="dark"] [class*="text-\[\#6b6b6b\]"],
-html[data-color-scheme="dark"] [class*="text-\[\#8a8a8a\]"] {
+html[data-color-scheme="dark"] [class*="text-\[\#8a8a8a\]"],
+html[data-color-scheme="dark"] [class*="text-slate-500"] {
   color: #94a3b8 !important;
 }
 
