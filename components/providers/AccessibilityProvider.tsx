@@ -58,7 +58,12 @@ export function AccessibilityProvider({ children }: { children: React.ReactNode 
   const [isMounted, setIsMounted] = useState(false);
   const pathname = usePathname();
 
-  const isLandingPage = useMemo(() => pathname === '/', [pathname]);
+  const isLandingPage = useMemo(() => 
+    pathname === '/' || 
+    pathname.startsWith('/signup') || 
+    pathname.startsWith('/login') || 
+    pathname.startsWith('/auth'), 
+  [pathname]);
 
   // Load preferences for the current user from backend (source of truth)
   const loadUserPreferences = useCallback(async () => {
