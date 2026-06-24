@@ -45,6 +45,7 @@ export default function CreateLessonPage() {
       steps: [] as any[],
     },
     niosCompetencies: [] as string[],
+    disabilityTypes: [] as string[],
     tags: [] as string[],
     difficulty: 5,
   });
@@ -248,6 +249,55 @@ export default function CreateLessonPage() {
                       setLessonData({ ...lessonData, niosCompetencies: competencies })
                     }
                   />
+                </div>
+
+                {/* Disability Categories */}
+                <div className="space-y-3">
+                  <Label>Disability Categories</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Select the learning needs this lesson is optimised for. Leave blank for general lessons.
+                  </p>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {[
+                      { value: 'ADHD', label: 'ADHD', icon: '⚡', color: 'bg-amber-50 border-amber-200 dark:bg-amber-950 dark:border-amber-800' },
+                      { value: 'DYSLEXIA', label: 'Dyslexia', icon: '📖', color: 'bg-blue-50 border-blue-200 dark:bg-blue-950 dark:border-blue-800' },
+                      { value: 'AUTISM', label: 'Autism Spectrum', icon: '🧩', color: 'bg-purple-50 border-purple-200 dark:bg-purple-950 dark:border-purple-800' },
+                      { value: 'HEARING_IMPAIRMENT', label: 'Hearing Impairment', icon: '👂', color: 'bg-green-50 border-green-200 dark:bg-green-950 dark:border-green-800' },
+                      { value: 'VISUAL_IMPAIRMENT', label: 'Visual Impairment', icon: '👁️', color: 'bg-rose-50 border-rose-200 dark:bg-rose-950 dark:border-rose-800' },
+                      { value: 'SPEECH_LANGUAGE', label: 'Speech & Language', icon: '🗣️', color: 'bg-indigo-50 border-indigo-200 dark:bg-indigo-950 dark:border-indigo-800' },
+                    ].map(({ value, label, icon, color }) => {
+                      const checked = lessonData.disabilityTypes.includes(value);
+                      return (
+                        <button
+                          key={value}
+                          type="button"
+                          onClick={() => {
+                            const current = lessonData.disabilityTypes;
+                            setLessonData({
+                              ...lessonData,
+                              disabilityTypes: checked
+                                ? current.filter((d: string) => d !== value)
+                                : [...current, value],
+                            });
+                          }}
+                          aria-pressed={checked}
+                          aria-label={`Toggle ${label}`}
+                          className={`flex items-center gap-2 px-3 py-3 rounded-lg border-2 text-sm font-medium transition-all cursor-pointer text-left w-full
+                            ${checked
+                              ? 'ring-2 ring-offset-1 ring-primary border-primary bg-primary/10'
+                              : color
+                            }`}
+                        >
+                          <span className="text-lg" aria-hidden="true">{icon}</span>
+                          <span>{label}</span>
+                          {checked && <span className="ml-auto text-primary" aria-hidden="true">✓</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {lessonData.disabilityTypes.length === 0 && (
+                    <p className="text-xs text-muted-foreground italic">No category selected — lesson will be shown to all learners as a general lesson.</p>
+                  )}
                 </div>
 
                 {/* Tags */}
